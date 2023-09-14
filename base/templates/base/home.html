@@ -1,0 +1,82 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<style type="text/css">
+  .home_container {
+    
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+  }
+  
+  .rooms {
+    border: 1px solid #bcf;
+    padding: 10px;
+    margin-top: 10px;
+    margin-left: 5px;
+  }
+  
+  .topics {
+    
+    padding: 10px;
+    height: 100vh;
+  }
+  
+  .topics>div {
+    margin-top: 10px;
+  }
+  
+  .username a {
+    text-decoration: none;
+    font-style: italic;
+    font-weight: bold;
+    color: #0835eeef;
+  }
+  
+  a {
+    text-decoration-color: #777;
+    color: #222;
+  }
+</style>
+<div>
+  <h1>Hello , {{ request.user }}</h1>
+</div>
+<div class="home_container">
+  <div class="topics">
+    <h2>Browse Topics</h2>
+    <hr />
+    <div>
+      <a href="{% url 'home' %}">All Rooms</a>
+    </div>
+    {% if topics %}
+    {% for topic in topics %}
+    <div>
+      <a href="{% url 'home' %}?q={{topic.title}}">{{ topic.title }}</a>
+    </div>
+    {% endfor %}
+    
+    {% endif %}
+  </div>
+  <div>
+    <h3> {{ len_rooms }} rooms available to join.</h3>
+    {% if rooms %}
+    {% for room in rooms %}
+    <div class="rooms">
+      <div class="username"> <a href="#">@{{room.host.username}}</a></div>
+      <h4>{{room.id}}.<a href="{% url 'room' room.id %}">{{room.name}}</a>
+      </h4>
+      <small>{{ room.topic }}</small>
+      {% if request.user == room.host %}
+      <a href="{% url 'update-room' room.id %}">Edit</a>
+      <a href="{% url 'delete-room' room.id %}">Delete</a>
+      {% endif %}
+    </div>
+    
+    {% endfor %}
+    
+    {% endif %}
+    
+  </div>
+</div>
+
+{% endblock content %}

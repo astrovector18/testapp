@@ -1,0 +1,23 @@
+
+
+<nav>
+  <style type="text/css" media="all">
+    form{
+      margin-top: 10px;
+    }
+  </style>
+  <a href="/"> <h2>Django App</h2></a>
+  <hr /> 
+   <form action="{% url 'home' %}" method="get" class="login">
+     <input type="search" name="q" placeholder="Search Rooms ... "/>
+   </form>
+   
+   <div>
+     {% if request.user.is_authenticated %}
+     <a href="{% url 'logout'%}">Logout</a>
+     <a href="{% url 'create-room'%}">Create Room </a>
+      {% else %}
+       <a href=" {% url 'login'%}"> Login </a>
+     {% endif %}
+   </div>
+</nav>
